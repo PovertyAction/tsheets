@@ -1,19 +1,25 @@
-*trackingsheets_v2
-
+*! version 1.0.0 Rosemarie Sandino 07jun2018
 
 program tsheets
 	syntax varlist [if] [in], ///
 		SORTvars(varlist max=2) 	 /// list of variables to sort by
 		[TITLEvars(varlist max=2)] 	 /// list of title variables
 		[FILEname(str)] 			 /// name of tracking sheet file
-		[Number(integer 25)]		 /// number on each page, default is 20
+		[Number(integer 25)]		 /// number on each page, default is 25
 		[VARiable]					 /// default is to use variable labels
 		[NOLabel]
 	marksample touse, strok novarlist
 
+version 13	
+	
 if mi("`filename'") {
 	local filename = "Tracking_Sheet"
 }
+
+if regexm("`filename'", ".xls") {
+	local filename = substr("`filename'", 1, strpos("`filename'", ".xl")-1) 
+}
+
 	
 if mi("`variable'") {
 	local variable = "varl"
@@ -126,7 +132,7 @@ qui {
 					cell(A4) miss("") `nolabel'
 				
 				*Add formatting
-				mata: adjust_column_widths("`filename'_`unit'", "`subunit'_`i'", tokens("`varlist'"), tokens("`varname_widths'"))
+				mata: adjust_column_widths("`filename'_`unit'", "`subunit'_`i'", tokens("`varlist'"))
 				
 				local start = `start' + `number'
 				local end = `end' + `number'	
@@ -142,42 +148,42 @@ end
 mata:
 mata clear
 
-void adjust_column_widths(string scalar filename, string scalar sheetname, string matrix varlist, string vector varname_widths) 
+void adjust_column_widths(string scalar filename, string scalar sheetname, string matrix varlist) 
 {
 	class xl scalar b
-	real scalar i, j, k
-	real vector column_widths
-	string scalar title, subtitle, pgnum
+	real scalar i
+	real vector column_widths, varname_widths
+	string scalar varlabel
 
 	b.load_book(filename)
 	b.set_sheet(sheetname)
 	b.set_mode("open")
 	
+	varname_widths = strlen(varlist)
 	column_widths = colmax(strlen(st_sdata(., varlist)))
+	
 	for (i=1; i<=cols(column_widths); i++) {
-		
-		if	(column_widths[i] < strtoreal(varname_widths[i])) {
-			column_widths[i] = strtoreal(varname_widths[i]) 
+		if (st_local("variable") == "varl") {
+			varlabel = st_varlabel(varlist[i])
+			if (varname_widths[i] < strlen(varlabel)) {
+				varname_widths[i] = strlen(varlabel)
+			}
+		}	
+		if	(column_widths[i] < varname_widths[i]) {
+			column_widths[i] = varname_widths[i] 
 		}
-		
 		b.set_column_width(i, i, column_widths[i]+2)
 	}	
 	
-	title = st_local("title")
-	subtitle = st_local("subtitle")
-	pgnum = st_local("pgnum")
-	j = cols(column_widths)
-	k = strtoreal(st_local("endrow"))
-	l = k+2
-	b.set_horizontal_align(1, (1,j), "merge")
-	b.set_horizontal_align(2, (1,j), "merge")
-	b.put_string(1, 1, title)
-	b.put_string(2, 1, subtitle)
-	b.put_string(l, 1, pgnum)
-	b.set_font_bold((1,4), (1,j), "on")
-	b.set_border((4,k), (1,j), "thin")
-	b.set_font((1, 2), (1,j), "Calibri", 16)
-	b.set_horizontal_align((4, k),(1,j), "center")
+	b.set_horizontal_align(1, (1, cols(column_widths)), "merge")
+	b.set_horizontal_align(2, (1, cols(column_widths)), "merge")
+	b.put_string(1, 1, st_local("title"))
+	b.put_string(2, 1, st_local("subtitle"))
+	b.put_string(strtoreal(st_local("endrow"))+2, 1, st_local("pgnum"))
+	b.set_font_bold((1,4), (1, cols(column_widths)), "on")
+	b.set_border((4, strtoreal(st_local("endrow"))), (1, cols(column_widths)), "thin")
+	b.set_font((1, 2), (1, cols(column_widths)), "Calibri", 16)
+	b.set_horizontal_align((4, strtoreal(st_local("endrow"))), (1, cols(column_widths)), "center")
 	
 	b.close_book()
 }
