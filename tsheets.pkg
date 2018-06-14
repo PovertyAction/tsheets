@@ -1,4 +1,5 @@
 v 3
+d 'TSHEETS': Stata program for formatting tracking sheets
 d program to create formatted tracking sheets
 f tsheets.ado
 f tsheets.sthlp
