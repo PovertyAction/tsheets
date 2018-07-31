@@ -10,7 +10,7 @@ program tsheets
 		[NOLabel]
 	marksample touse, strok novarlist
 
-version 13	
+version 15	
 	
 if mi("`filename'") {
 	local filename = "Tracking_Sheet"
