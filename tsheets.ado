@@ -10,7 +10,7 @@ program tsheets
 		[NOLabel]
 	marksample touse, strok novarlist
 
-version 15	
+version 14	
 	
 if mi("`filename'") {
 	local filename = "Tracking_Sheet"
@@ -83,6 +83,7 @@ qui {
 	foreach unit in `units' {
 
 		levelsof `subunitvar' if `unitvar' == "`unit'", local(subunits)
+		count if `unitvar' == "`unit'"
 		noi dis "Generating tracking sheet for `unitvar' `unit'..." _continue
 		foreach subunit in `subunits' {
 		
