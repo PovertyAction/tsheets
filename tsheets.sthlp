@@ -89,7 +89,7 @@ variables have name variables comm_name and vill_name
 {p_end}{cmd}{...}
 {phang2}. use master_data.dta{p_end}
 {phang2}. tsheets dob gender full_name phone1 phone2 contact1,
-sortvars(comm_live vill_live) titlevars(comm_name vill_name) use{p_end}
+sortvars(comm_live vill_live) titlevars(comm_name vill_name) {p_end}
 {txt}{...}
 
 
