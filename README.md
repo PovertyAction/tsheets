@@ -69,7 +69,7 @@ Stata help file:
     and both variables have name variables comm_name and vill_name
         <b>. use master_data.dta</b>
         <b>. tsheets dob gender full_name phone1 phone2 contact1,</b>
-            <b>sortvars(comm_live vill_live) titlevars(comm_name vill_name) use</b>
+            <b>sortvars(comm_live vill_live) titlevars(comm_name vill_name) </b>
 <p>
 <p>
 <a name="authors"></a><b><u>Authors</u></b>
