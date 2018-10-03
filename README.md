@@ -1,16 +1,16 @@
 # tsheets
-Stata program that creates formatted tracking sheets
+Stata program that creates formatted tracking sheets for field staff during field data collection.
 
 Stata help file: 
       
-      __Title__
+      Title
       
-          `tsheets` -- Create formatted tracking sheets in Excel for field staff.
+          tsheets -- Create formatted tracking sheets in Excel for field staff.
       
       
-      __Syntax__
+      Syntax
       
-              `tsheets` _varlist_ [if] [in], **sortvars(**_varlist_**)** _[options]_
+              tsheets varlist [if] [in], sortvars(varlist) [options]
       
           options               Description
           -------------------------------------------------------------------------
