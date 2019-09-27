@@ -173,6 +173,9 @@ void adjust_column_widths(string scalar filename, string scalar sheetname, strin
 		if	(column_widths[i] < varname_widths[i]) {
 			column_widths[i] = varname_widths[i] 
 		}
+		if (column_widths[i] > 40) {
+			column_widths[i] = 40
+		}
 		b.set_column_width(i, i, column_widths[i]+2)
 	}	
 	
@@ -185,7 +188,7 @@ void adjust_column_widths(string scalar filename, string scalar sheetname, strin
 	b.set_border((4, strtoreal(st_local("endrow"))), (1, cols(column_widths)), "thin")
 	b.set_font((1, 2), (1, cols(column_widths)), "Calibri", 16)
 	b.set_horizontal_align((4, strtoreal(st_local("endrow"))), (1, cols(column_widths)), "center")
-	
+	b.set_text_wrap((4, strtoreal(st_local("endrow"))), (1, cols(column_widths)), "on")
 	b.close_book()
 }
 	
