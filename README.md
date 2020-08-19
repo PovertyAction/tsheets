@@ -3,7 +3,7 @@ Stata program that creates formatted tracking sheets for field staff during fiel
 
 ## Installation
 
-`tsheets` can be installed directly into Stata from github using the following command: 
+`tsheets` can be installed directly into Stata from GitHub using the following command: 
 ```
 net install tsheets, from("https://raw.githubusercontent.com/PovertyAction/tsheets/master") replace
 ```
