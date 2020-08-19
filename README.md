@@ -1,6 +1,14 @@
 # tsheets
 Stata program that creates formatted tracking sheets for field staff during field data collection.
 
+## Installation
+
+`tsheets` can be installed directly into Stata from github using the following command: 
+```
+net install tsheets, from("https://raw.githubusercontent.com/PovertyAction/tsheets/master") replace
+```
+
+## Contents
 Stata help file: 
       
 <pre>
